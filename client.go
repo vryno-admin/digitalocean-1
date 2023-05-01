@@ -6,6 +6,7 @@ import (
 	"strings"
 	"sync"
 	"time"
+	"log"
 
 	"github.com/digitalocean/godo"
 	"github.com/libdns/libdns"
@@ -78,7 +79,7 @@ func (p *Provider) addDNSEntry(ctx context.Context, zone string, record libdns.R
 		Type: record.Type,
 		TTL:  int(record.TTL.Seconds()),
 	}
-
+        log.Printf("Record Value = %v\n", record.Value)
 	rec, _, err := p.client.Domains.CreateRecord(ctx, zone, &entry)
 	if err != nil {
 		return record, err
@@ -124,7 +125,7 @@ func (p *Provider) updateDNSEntry(ctx context.Context, zone string, record libdn
 		Type: record.Type,
 		TTL:  int(record.TTL.Seconds()),
 	}
-
+        log.Printf("Record Value = %v\n", record.Value)
 	_, _, err = p.client.Domains.EditRecord(ctx, zone, id, &entry)
 	if err != nil {
 		return record, err
